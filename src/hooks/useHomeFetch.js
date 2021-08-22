@@ -12,9 +12,13 @@ const initialState = {
 };
 
 export const useHomeFetch = () => {
+  //creating a new hook for SearchBox
+  const [searchTerm, setSearchTerm] = useState("");
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  console.log(searchTerm);
 
   const fetchMovies = async (page, searchTerm = "") => {
     //this will show the loading spinner
@@ -34,9 +38,10 @@ export const useHomeFetch = () => {
     }
     setLoading(false);
   };
-  //initial render
+  //initial and search
+  //at dep searchTerm the useEffect will trigger each time searchTerm renders
   useEffect(() => {
     fetchMovies(1);
-  }, []);
-  return { state, loading, error };
+  }, [searchTerm]);
+  return { state, loading, error, setSearchTerm };
 };
