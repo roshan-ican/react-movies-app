@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+//the alternative of typescript
+import PropTypes from "prop-types";
 //Image import it
 import searchIcon from "../../images/search-icon.svg";
 //styles
@@ -32,12 +34,16 @@ const SearchBar = ({ setSearchTerm }) => {
         <input
           type="text"
           placeholder="Search Movie"
-          onChange={(e) => setState(e.currentTarget.value)}
+          onChange={(event) => setState(event.currentTarget.value)}
           value={state}
         />
       </Content>
     </Wrapper>
   );
+};
+
+SearchBar.propTypes = {
+  callback: PropTypes.func,
 };
 
 export default SearchBar;

@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 //API
 //we will use the useEfFect to fetch data
 
+import { isPersistedState } from "../helpers";
 import API from "../API";
 
 const initialState = {
@@ -17,6 +18,8 @@ export const useHomeFetch = () => {
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  //for load more button the last one above
 
   console.log(searchTerm);
 
@@ -41,7 +44,30 @@ export const useHomeFetch = () => {
   //initial and search
   //at dep searchTerm the useEffect will trigger each time searchTerm renders
   useEffect(() => {
-    fetchMovies(1);
+    if (!searchTerm) {
+      const sessionState = isPersistedState("homeState");
+      if (sessionState) {
+        console.log("Grabbing from sessionStorage");
+        return;
+      }
+    }
+    console.log("Grabbing from the API");
+    setState(initialState);
+    fetchMovies(1, searchTerm);
   }, [searchTerm]);
-  return { state, loading, error, setSearchTerm };
+
+  //Load More
+  useEffect(() => {
+    if (!isLoadingMore) return;
+
+    fetchMovies(state.page + 1, searchTerm);
+    setIsLoadingMore(false);
+  }, [isLoadingMore, searchTerm, state.page]);
+
+  //Write to sessionStorage
+  useEffect(() => {
+    if (!searchTerm)
+      sessionStorage.setItem("houseState", JSON.stringify(state));
+  });
+  return { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore };
 };
