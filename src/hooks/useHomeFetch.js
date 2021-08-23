@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
+
+import API from "../API";
+
 //API
 //we will use the useEfFect to fetch data
 
-import { isPersistedState } from "../helpers";
-import API from "../API";
-
+//To solve load more
 const initialState = {
   page: 0,
   results: [],
@@ -41,17 +42,10 @@ export const useHomeFetch = () => {
     }
     setLoading(false);
   };
-  //initial and search
   //at dep searchTerm the useEffect will trigger each time searchTerm renders
+
+  //initial and search
   useEffect(() => {
-    if (!searchTerm) {
-      const sessionState = isPersistedState("homeState");
-      if (sessionState) {
-        console.log("Grabbing from sessionStorage");
-        return;
-      }
-    }
-    console.log("Grabbing from the API");
     setState(initialState);
     fetchMovies(1, searchTerm);
   }, [searchTerm]);
@@ -59,15 +53,9 @@ export const useHomeFetch = () => {
   //Load More
   useEffect(() => {
     if (!isLoadingMore) return;
-
     fetchMovies(state.page + 1, searchTerm);
     setIsLoadingMore(false);
   }, [isLoadingMore, searchTerm, state.page]);
 
-  //Write to sessionStorage
-  useEffect(() => {
-    if (!searchTerm)
-      sessionStorage.setItem("houseState", JSON.stringify(state));
-  });
   return { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore };
 };
