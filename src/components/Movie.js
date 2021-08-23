@@ -7,6 +7,8 @@ import BreadCrumb from "./BreadCrumb";
 import Spinner from "./Spinner";
 import Grid from "./Grid";
 import MovieInfo from "./MovieInfo";
+import MovieInfoBar from "./MovieInfoBar";
+import Actor from "./Actor";
 //Hook
 import { useMovieFetch } from "../hooks/useMovieFetch";
 //with useParams from react-router-dom we can get the movieId
@@ -25,6 +27,24 @@ const Movie = () => {
     <>
       <BreadCrumb movieTitle={movie.original_title} />
       <MovieInfo movie={movie} />
+      <MovieInfoBar
+        time={movie.runtime}
+        budget={movie.budget}
+        revenue={movie.revenue}
+      />
+      <Grid header="Actors">
+        {movie.actors.map((actor) => (
+          <Actor
+            key={actor.credit_id}
+            name={actor.name}
+            imageUrl={
+              actor.profile_path
+                ? `${IMAGE_BASE_URL}${POSTER_SIZE}${actor.profile_path}`
+                : NoImage
+            }
+          />
+        ))}
+      </Grid>
     </>
   );
 };

@@ -13,18 +13,16 @@ export const Content = styled.div`
   max-width: var(--maxWidth);
   width: 100%;
   height: 55px;
-  background: var(--medGery);
+  background: var(--medGrey);
   margin: 0 auto;
   border-radius: 40px;
   color: var(--white);
-
   img {
     position: absolute;
     left: 15px;
     top: 14px;
     width: 30px;
   }
-
   input {
     font-size: var(--fontBig);
     position: absolute;
@@ -36,13 +34,8 @@ export const Content = styled.div`
     background: transparent;
     height: 40px;
     color: var(--white);
-
     :focus {
       outline: none;
-    }
-
-    @media screen and (max-width: 720px) {
-      font-size: var(--fontSmall);
     }
   }
 `;

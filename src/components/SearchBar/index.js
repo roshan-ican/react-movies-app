@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 //the alternative of typescript
-import PropTypes from "prop-types";
-//Image import it
-import searchIcon from "../../images/search-icon.svg";
-//styles
-import { Wrapper, Content } from "./SearchBar.style";
 
+import PropTypes from "prop-types";
+// Image
+import searchIcon from "../../images/search-icon.svg";
+// Styles
+import { Wrapper, Content } from "./SearchBar.style";
 //we will make this a controlled component and a controlled component is
 //something that react controls and how will we do it
 //with useState and useEffect
+
 const SearchBar = ({ setSearchTerm }) => {
   const [state, setState] = useState("");
   const initial = useRef(true);
@@ -18,15 +19,14 @@ const SearchBar = ({ setSearchTerm }) => {
       initial.current = false;
       return;
     }
-    //we created the timer which will trigger each half sec
+
     const timer = setTimeout(() => {
       setSearchTerm(state);
     }, 500);
 
     return () => clearTimeout(timer);
   }, [setSearchTerm, state]);
-  //we are making the timer with useEffect because we want a little delay at search therefore we added the
-  //dependencies
+
   return (
     <Wrapper>
       <Content>
